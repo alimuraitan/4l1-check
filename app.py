@@ -387,13 +387,20 @@ def home():  # دالة تعرض الصفحة الرئيسية
 
 @app.route("/scan", methods=["POST"])  # تعريف مسار /scan الذي يستقبل طلبات POST للفحص
 def scan():  # دالة تنفيذ عملية الفحص
-    data = request.get_json() or {}  # قراءة بيانات JSON القادمة من الواجهة
+    data = request.get_json(silent=True)
+    if not isinstance(data, dict):
+        return jsonify({"success": False, "error": "بيانات الطلب غير صالحة"}), 400
+
     site = data.get("site")  # استخراج رابط الموقع من البيانات
     scan_type = data.get("vuln_type")  # استخراج نوع الثغرة المطلوب فحصها
 
-    if not site or not scan_type:  # إذا كانت البيانات ناقصة
+    if not isinstance(site, str) or not site.strip() or not scan_type:
         return jsonify({"success": False, "error": "بيانات الطلب غير مكتملة"}), 400  # إعادة خطأ 400 مع رسالة
 
+    if scan_type not in ("xss", "stored_xss", "sqli", "csrf"):
+        return jsonify({"success": False, "error": "نوع الفحص غير مدعوم"}), 400
+
+    site = site.strip()
     if not is_valid_url(site):  # التحقق من أن الرابط صالح وقابل للوصول
         return jsonify({"success": False, "error": "خطأ: الرابط غير صالح أو غير متاح"}), 400  # إعادة خطأ في الرابط
 
