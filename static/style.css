@@ -1,0 +1,411 @@
+* { /* تطبيق إعدادات عامة لكل العناصر */
+    margin: 0; /* إزالة الهوامش الافتراضية */
+    padding: 0; /* إزالة الحواف الداخلية الافتراضية */
+    box-sizing: border-box; /* احتساب البُعد شاملاً الحواف والحدود */
+}
+
+body { /* تنسيق صفحة الموقع بالكامل */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* نوع الخط المستخدم */
+    background: #0a0e27; /* لون خلفية داكن أزرق */
+    color: #e0e0e0; /* لون النص الافتراضي رمادي فاتح */
+    overflow-x: hidden; /* منع التمرير الأفقي */
+    line-height: 1.6; /* ارتفاع السطر للنصوص */
+}
+
+.animated-background { /* خلفية متحركة تغطي الشاشة بالكامل */
+    position: fixed; /* تثبيت العنصر في الشاشة */
+    top: 0; /* من أعلى الشاشة */
+    left: 0; /* من جهة اليسار */
+    width: 100%; /* عرض كامل الشاشة */
+    height: 100%; /* ارتفاع كامل الشاشة */
+    z-index: -1; /* خلف باقي العناصر */
+    background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0d1b2a 100%); /* تدرج لوني للخلفية */
+}
+
+.cyber-grid { /* شبكة خفيفة فوق الخلفية تعطي شكل سيبراني */
+    position: absolute; /* تموضع مطلق داخل الخلفية */
+    width: 100%; /* تغطي العرض كامل */
+    height: 100%; /* تغطي الارتفاع كامل */
+    background-image:  /* تعريف صورة الخلفية كمجموعة خطوط */
+        linear-gradient(0deg, transparent 24%, rgba(0, 255, 150, 0.05) 25%, rgba(0, 255, 150, 0.05) 26%, transparent 27%, transparent 74%, rgba(0, 255, 150, 0.05) 75%, rgba(0, 255, 150, 0.05) 76%, transparent 77%, transparent), /* خطوط أفقية خفيفة */
+        linear-gradient(90deg, transparent 24%, rgba(0, 255, 150, 0.05) 25%, rgba(0, 255, 150, 0.05) 26%, transparent 27%, transparent 74%, rgba(0, 255, 150, 0.05) 75%, rgba(0, 255, 150, 0.05) 76%, transparent 77%, transparent); /* خطوط رأسية خفيفة */
+    background-size: 50px 50px; /* حجم مربعات الشبكة */
+    animation: gridMove 20s linear infinite; /* تحريك الخلفية للأعلى والأسفل */
+}
+
+@keyframes gridMove { /* تعريف حركة الشبكة */
+    0% { transform: translateY(0); } /* بداية الحركة بدون إزاحة */
+    100% { transform: translateY(50px); } /* تحريك الشبكة للأسفل قليلاً */
+}
+
+.particle { /* نقطة ضوء متوهجة في الخلفية */
+    position: absolute; /* تموضع مطلق */
+    border-radius: 50%; /* جعلها دائرية */
+    background: radial-gradient(circle, rgba(0, 255, 150, 0.8) 0%, rgba(0, 255, 150, 0) 70%); /* تدرج دائري متلاشي */
+    filter: blur(2px); /* تمويه بسيط للنقطة */
+    animation: float 20s infinite; /* تحريكها بحركة عائمة */
+}
+
+.particle-1 { width: 300px; height: 300px; top: 10%; left: 10%; animation-delay: 0s; } /* نقطة ضوء أولى في الزاوية العلوية اليسرى */
+.particle-2 { width: 250px; height: 250px; top: 50%; right: 5%; animation-delay: 5s; opacity: 0.6; } /* نقطة ضوء ثانية يمين منتصف الشاشة */
+.particle-3 { width: 200px; height: 200px; bottom: 10%; left: 30%; animation-delay: 10s; opacity: 0.4; } /* نقطة ضوء ثالثة أسفل اليسار */
+.particle-4 { width: 350px; height: 350px; top: 20%; right: 20%; animation-delay: 15s; opacity: 0.3; } /* نقطة ضوء رابعة في الأعلى يمين */
+
+@keyframes float { /* حركة عائمة للنقاط */
+    0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.3; } /* في البداية والنهاية بحجم طبيعي وشفافية منخفضة */
+    50% { transform: translate(50px, 50px) scale(1.1); opacity: 0.6; } /* في منتصف الحركة تتحرك قليلاً وتكبر وتزداد وضوحاً */
+}
+
+.container { /* الحاوية الأساسية لمحتوى الصفحة */
+    max-width: 1200px; /* عرض أقصى للمحتوى */
+    margin: 0 auto; /* توسيط الحاوية أفقياً */
+    padding: 20px; /* حواف داخلية بسيطة */
+    position: relative; /* تموضع نسبي لداخلها */
+    z-index: 1; /* فوق الخلفية المتحركة */
+}
+
+.header { /* ترويسة الموقع */
+    text-align: center; /* محاذاة النص للوسط */
+    padding: 50px 0 30px; /* مسافة فوق وتحت العنوان */
+    margin-bottom: 40px; /* مسافة أسفل الهيدر */
+    border-bottom: 2px solid rgba(0, 255, 150, 0.3); /* خط سفلي مضيء */
+    animation: slideDown 0.8s ease-out; /* حركة نزول ناعمة وقت الظهور */
+}
+
+@keyframes slideDown { /* حركة نزول الهيدر */
+    from { opacity: 0; transform: translateY(-30px); } /* يبدأ شفاف ومن أعلى */
+    to { opacity: 1; transform: translateY(0); } /* ينتهي واضح في مكانه الطبيعي */
+}
+
+.logo-section { /* جزء الشعار والعنوان */
+    display: flex; /* استخدام فليكس بوكس لترتيب العناصر أفقياً */
+    align-items: center; /* محاذاة عمودية في الوسط */
+    justify-content: center; /* توسيط أفقياً */
+    gap: 20px; /* مسافة بين الأيقونة والعنوان */
+}
+
+.shield-icon { /* أيقونة الدرع */
+    font-size: 50px; /* حجم الأيقونة */
+    animation: rotate 3s infinite linear; /* تدوير مستمر للأيقونة */
+}
+
+@keyframes rotate { /* حركة دوران الأيقونة */
+    from { transform: rotateY(0deg); } /* بداية بدون دوران */
+    to { transform: rotateY(360deg); } /* دوران كامل حول محور Y */
+}
+
+.header h1 { /* تنسيق عنوان الموقع */
+    font-size: 3em; /* حجم خط كبير */
+    background: linear-gradient(135deg, #00ff96, #00ccff); /* تدرج لوني داخل النص */
+    -webkit-background-clip: text; /* قص الخلفية على شكل النص (لمتصفح كروم وسفاري) */
+    -webkit-text-fill-color: transparent; /* جعل لون النص شفاف لإظهار التدرج */
+    background-clip: text; /* قص الخلفية بالنص للمتصفحات الأخرى */
+    text-shadow: 0 0 20px rgba(0, 255, 150, 0.5); /* ظل متوهج حول النص */
+    letter-spacing: 2px; /* مسافة بين الحروف */
+}
+
+.input-section { /* صندوق إدخال الرابط واختيار نوع الثغرة */
+    background: rgba(15, 20, 40, 0.8); /* خلفية شفافة داكنة */
+    border: 2px solid rgba(0, 255, 150, 0.3); /* حدود بلون أخضر سيبراني */
+    border-radius: 15px; /* حواف دائرية للصندوق */
+    padding: 40px; /* حواف داخلية واسعة */
+    margin-bottom: 40px; /* مسافة أسفل الصندوق */
+    backdrop-filter: blur(10px); /* تمويه الخلفية خلف الصندوق (glass effect) */
+    box-shadow: 0 8px 32px rgba(0, 255, 150, 0.1); /* ظل ناعم للصندوق */
+    animation: fadeIn 1s ease-out 0.2s both; /* حركة دخول ناعمة مع تأخير بسيط */
+}
+
+@keyframes fadeIn { /* حركة ظهور الصندوق */
+    from { opacity: 0; transform: translateY(20px); } /* يبدأ شفاف ومنخفض قليلاً */
+    to { opacity: 1; transform: translateY(0); } /* ينتهي واضح في مكانه الطبيعي */
+}
+
+.input-section h2 { /* عنوان قسم "فحص الموقع" */
+    color: #00ff96; /* لون أخضر لامع */
+    margin-bottom: 30px; /* مسافة أسفل العنوان */
+    font-size: 1.8em; /* حجم خط متوسط كبير */
+    text-align: center; /* توسيط النص */
+}
+
+.form-group { /* مجموعة لكل حقل إدخال */
+    margin-bottom: 25px; /* مسافة أسفل كل مجموعة */
+}
+
+.form-group label { /* لابل الحقل */
+    display: block; /* يجعله في سطر مستقل */
+    margin-bottom: 8px; /* مسافة بين اللابل والحقل */
+    color: #00ccff; /* لون أزرق سماوي */
+    font-weight: 600; /* سمك خط متوسط */
+    font-size: 1.05em; /* حجم خط بسيط أكبر من العادي */
+    text-shadow: 0 0 10px rgba(0, 204, 255, 0.3); /* ظل ناعم حول النص */
+}
+
+.input-field, .select-field { /* تنسيق مشترك لحقل الإدخال وقائمة الاختيار */
+    width: 100%; /* عرض كامل للصندوق */
+    padding: 15px; /* حواف داخلية مريحة */
+    background: rgba(20, 30, 50, 0.9); /* خلفية داكنة للصندوق */
+    border: 2px solid rgba(0, 255, 150, 0.4); /* حدود بلون أخضر خفيف */
+    border-radius: 8px; /* حواف مستديرة */
+    color: #e0e0e0; /* لون النص داخل الحقل */
+    font-size: 1em; /* حجم خط عادي */
+    transition: all 0.3s ease; /* انتقال ناعم عند التغيير (مثل الفوكس) */
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3); /* ظل داخلي خفيف */
+}
+
+.input-field:focus, .select-field:focus { /* تنسيق الحقول عند الفوكس */
+    outline: none; /* إزالة الإطار الأزرق الافتراضي */
+    border-color: #00ff96; /* تلوين الحدود بالأخضر الفاتح */
+    box-shadow: 0 0 20px rgba(0, 255, 150, 0.5), inset 0 0 10px rgba(0, 0, 0, 0.3); /* ظل خارجي وداخلي */
+    background: rgba(20, 35, 60, 0.95); /* خلفية أكثر وضوحًا عند الفوكس */
+}
+
+.button-group { /* مجموعة الأزرار (فحص و مسح) */
+    display: flex; /* استخدام فليكس لترتيب الأزرار */
+    gap: 15px; /* مسافة بين الأزرار */
+    margin-top: 30px; /* مسافة من الأعلى عن الحقول */
+    justify-content: center; /* توسيط الأزرار */
+}
+
+.btn { /* تنسيق أساسي لكل الأزرار */
+    padding: 15px 40px; /* حجم الزر (ارتفاع × عرض) */
+    font-size: 1.05em; /* حجم الخط داخل الزر */
+    border: none; /* إزالة الحدود الافتراضية */
+    border-radius: 8px; /* حواف مستديرة */
+    cursor: pointer; /* مؤشر الفأرة كيد */
+    font-weight: 700; /* سماكة خط عالية */
+    transition: all 0.3s ease; /* انتقال ناعم في الهوفر */
+    text-transform: uppercase; /* تحويل النص إلى حروف كبيرة */
+    letter-spacing: 1px; /* مسافة بسيطة بين الحروف */
+}
+
+.btn-primary { /* زر الفحص الأساسي */
+    background: linear-gradient(135deg, #00ff96, #00ccff); /* تدرج أخضر-أزرق */
+    color: #000; /* لون النص أسود */
+    box-shadow: 0 0 20px rgba(0, 255, 150, 0.5); /* توهج خفيف حول الزر */
+}
+
+.btn-primary:hover { /* تأثير الهوفر على زر الفحص */
+    transform: scale(1.05); /* تكبير بسيط عند المرور */
+    box-shadow: 0 0 40px rgba(0, 255, 150, 0.8); /* توهج أقوى */
+}
+
+.btn-secondary { /* زر المسح */
+    background: rgba(0, 255, 150, 0.1); /* خلفية شبه شفافة خضراء */
+    border: 2px solid rgba(0, 255, 150, 0.5); /* حدود خضراء واضحة */
+    color: #00ff96; /* لون النص أخضر فاتح */
+}
+
+.btn-secondary:hover { /* تأثير الهوفر على زر المسح */
+    background: rgba(0, 255, 150, 0.2); /* زيادة وضوح الخلفية قليلاً */
+}
+
+.progress-section { /* صندوق "جاري الفحص..." */
+    text-align: center; /* توسيط النص والمحتوى */
+    padding: 40px; /* حواف داخلية للصندوق */
+    background: rgba(15, 20, 40, 0.8); /* خلفية داكنة شفافة */
+    border: 2px solid rgba(0, 255, 150, 0.3); /* حدود خضراء */
+    border-radius: 15px; /* حواف مستديرة */
+    margin-bottom: 40px; /* مسافة تحت الصندوق */
+}
+
+.scanner-animation { /* منطقة حركة خط الفحص */
+    height: 100px; /* ارتفاع المساحة */
+    margin-bottom: 20px; /* مسافة أسفلها عن النص */
+    position: relative; /* تموضع نسبي للخط داخلها */
+    overflow: hidden; /* إخفاء أي جزء خارج الإطار */
+}
+
+.scanner-line { /* الخط المتحرك في الفحص */
+    width: 100%; /* عرض الخط يغطي الصندوق */
+    height: 3px; /* ارتفاع الخط */
+    background: linear-gradient(90deg, transparent 0%, #00ff96 50%, transparent 100%); /* تدرج خط مضيء وسطه أخضر */
+    animation: scan 2s infinite; /* حركة مستمرة لأعلى وأسفل */
+    box-shadow: 0 0 20px #00ff96; /* توهج حول الخط */
+}
+
+@keyframes scan { /* حركة الخط */
+    0% { transform: translateY(-50px); } /* يبدأ من فوق خارج الصندوق */
+    100% { transform: translateY(100px); } /* ينتهي أسفل الصندوق */
+}
+
+#progress-text { /* نص "جاري الفحص..." */
+    color: #00ff96; /* لون أخضر */
+    font-size: 1.2em; /* حجم خط أكبر قليلاً */
+    text-shadow: 0 0 10px rgba(0, 255, 150, 0.5); /* توهج خفيف حول النص */
+}
+
+.results-section { /* قسم عرض النتائج */
+    animation: slideUp 0.8s ease-out; /* حركة صعود عند الظهور */
+}
+
+@keyframes slideUp { /* حركة صعود النتائج */
+    from { opacity: 0; transform: translateY(30px); } /* تبدأ أسفل وبشكل شفاف */
+    to { opacity: 1; transform: translateY(0); } /* تنتهي في مكانها الطبيعية وواضحة */
+}
+
+.summary-card { /* كرت ملخص عدد الصفحات والثغرات */
+    display: grid; /* استخدام شبكة */
+    grid-template-columns: repeat(2, 1fr); /* عمودان متساويان */
+    gap: 20px; /* مسافة بين الأعمدة */
+    margin-bottom: 40px; /* مسافة أسفل الكرت */
+    background: rgba(15, 20, 40, 0.8); /* خلفية شفافة داكنة */
+    border: 2px solid rgba(0, 255, 150, 0.3); /* حدود خضراء */
+    border-radius: 15px; /* حواف مستديرة */
+    padding: 30px; /* حواف داخلية */
+}
+
+.summary-item { /* جزء داخل ملخص النتائج (صفحات/ثغرات) */
+    display: flex; /* عرض أفقي */
+    justify-content: space-between; /* توزيع النصوص يمين ويسار */
+    padding: 15px; /* حواف داخلية */
+    background: rgba(20, 30, 50, 0.6); /* خلفية غامقة */
+    border-radius: 8px; /* حواف مستديرة */
+    border-left: 4px solid #00ff96; /* شريط جانبي أخضر على اليسار */
+}
+
+.summary-item .label { /* اسم الحقل (مثلاً الصفحات المفحوصة) */
+    color: #00ccff; /* لون أزرق سماوي */
+    font-weight: 600; /* سماكة الخط */
+}
+
+.summary-item .value { /* قيمة الحقل (مثلاً العدد) */
+    color: #00ff96; /* لون أخضر فاتح */
+    font-size: 1.5em; /* حجم خط أكبر */
+    font-weight: 700; /* سماكة عالية */
+}
+
+.vulnerabilities-container { display: grid; gap: 20px; } /* حاوية كروت الثغرات باستخدام شبكة مع مسافة بين الكروت */
+
+.vulnerability-card { /* بطاقة عرض ثغرة واحدة */
+    background: rgba(15, 20, 40, 0.85); /* خلفية داكنة شبه شفافة */
+    border: 2px solid; /* حدود سيتم تلوينها حسب الخطورة */
+    border-radius: 12px; /* حواف مستديرة */
+    padding: 25px; /* حواف داخلية للكرت */
+    backdrop-filter: blur(10px); /* تأثير تمويه الخلفية */
+    transition: all 0.3s ease; /* انتقال ناعم عند الهوفر */
+    animation: cardSlideIn 0.6s ease-out; /* حركة دخول من اليسار */
+}
+
+@keyframes cardSlideIn { /* حركة دخول البطاقة */
+    from { opacity: 0; transform: translateX(-30px); } /* تبدأ شفافة ومزاحة لليسار */
+    to { opacity: 1; transform: translateX(0); } /* تنتهي في مكانها الطبيعي */
+}
+
+.vulnerability-card:hover { /* تأثير الهوفر على الكرت */
+    transform: translateY(-5px); /* رفع بسيط للأعلى */
+    box-shadow: 0 20px 50px rgba(0, 255, 150, 0.2); /* ظل ناعم أسفل الكرت */
+}
+
+.vulnerability-card.critical { border-color: #ff4444; } /* لون الحدود للثغرات الحرجة */
+.vulnerability-card.high { border-color: #ff8c00; } /* لون الحدود للثغرات العالية */
+.vulnerability-card.medium { border-color: #ffd700; } /* لون الحدود للثغرات المتوسطة */
+
+.vuln-header { /* رأس بطاقة الثغرة (نوع + مستوى) */
+    display: flex; /* عرض أفقي */
+    justify-content: space-between; /* توزيع العنوان والمستوى */
+    align-items: center; /* محاذاة عمودية في الوسط */
+    margin-bottom: 15px; /* مسافة أسفل الرأس */
+    padding-bottom: 15px; /* مسافة داخلية أسفل */
+    border-bottom: 1px solid rgba(0, 255, 150, 0.2); /* خط فاصل أسفل الرأس */
+}
+
+.vuln-type { /* نوع الثغرة (XSS, SQLi...) */
+    font-size: 1.3em; /* حجم خط أكبر */
+    font-weight: 700; /* سماكة قوية */
+    color: #e0e0e0; /* لون فاتح */
+}
+
+.severity-badge { /* الشارة التي تظهر مستوى الخطورة */
+    padding: 8px 16px; /* حواف داخلية */
+    border-radius: 20px; /* حواف دائرية */
+    font-weight: 700; /* سماكة الخط */
+    font-size: 0.9em; /* حجم خط صغير نسبياً */
+    text-transform: uppercase; /* كتابة المستوى بحروف كبيرة */
+}
+
+.severity-critical { /* شارة للثغرة الحرجة */
+    background: rgba(255, 68, 68, 0.2); /* خلفية حمراء شفافة */
+    color: #ff4444; /* نص أحمر */
+    border: 1px solid #ff4444; /* حدود حمراء */
+}
+
+.severity-high { /* شارة للثغرة العالية */
+    background: rgba(255, 140, 0, 0.2); /* خلفية برتقالية شفافة */
+    color: #ff8c00; /* نص برتقالي */
+    border: 1px solid #ff8c00; /* حدود برتقالية */
+}
+
+.severity-medium { /* شارة للثغرة المتوسطة */
+    background: rgba(255, 215, 0, 0.2); /* خلفية صفراء شفافة */
+    color: #ffd700; /* نص أصفر ذهبي */
+    border: 1px solid #ffd700; /* حدود صفراء ذهبية */
+}
+
+.vuln-content { margin-bottom: 15px; } /* قسم داخلي لكل معلومة (الرابط/البايلود) مع مسافة أسفل */
+
+.vuln-label { /* عنوان صغير مثل "الرابط" أو "Payload" */
+    color: #00ff96; /* لون أخضر فاتح */
+    font-weight: 600; /* سماكة الخط */
+    display: block; /* يظهر كسطر مستقل */
+    margin-top: 10px; /* مسافة من الأعلى */
+}
+
+.vuln-url { /* الصندوق الذي يحتوي على الرابط */
+    background: rgba(0, 255, 150, 0.05); /* خلفية خضراء شفافة جداً */
+    border: 1px solid rgba(0, 255, 150, 0.2); /* حدود خضراء خفيفة */
+    padding: 12px; /* حواف داخلية */
+    border-radius: 6px; /* حواف مستديرة */
+    margin: 10px 0; /* مسافة فوق وتحت */
+    font-family: monospace; /* استخدام خط ثابت العرض لسهولة قراءة الرابط */
+    color: #00ff96; /* لون نص أخضر فاتح */
+    word-break: break-all; /* كسر الكلمات الطويلة (مثل الروابط الطويلة) */
+    font-size: 0.95em; /* حجم خط صغير قليلاً */
+}
+
+.vuln-payload { /* الصندوق الذي يحتوي على الـ Payload */
+    background: rgba(255, 68, 68, 0.05); /* خلفية حمراء شفافة جداً */
+    border: 1px solid rgba(255, 68, 68, 0.2); /* حدود حمراء فاتحة */
+    padding: 12px; /* حواف داخلية */
+    border-radius: 6px; /* حواف مستديرة */
+    margin: 10px 0; /* مسافة فوق وتحت */
+    font-family: monospace; /* خط ثابت العرض للبايلود */
+    color: #ff9999; /* لون نص وردي مائل للأحمر */
+    word-break: break-all; /* كسر السلاسل الطويلة */
+    font-size: 0.95em; /* حجم خط صغير قليلاً */
+}
+
+.vuln-description { /* وصف نصي للثغرة */
+    background: rgba(0, 204, 255, 0.05); /* خلفية زرقاء فاتحة شفافة */
+    border-left: 4px solid #00ccff; /* خط أيسر أزرق سماوي */
+    padding: 15px; /* حواف داخلية */
+    border-radius: 6px; /* حواف مستديرة */
+    margin: 15px 0; /* مسافة فوق وتحت */
+    color: #b0d0ff; /* لون نص أزرق فاتح */
+    line-height: 1.8; /* ارتفاع سطر أكبر لسهولة القراءة */
+}
+
+.copy-btn { /* زر نسخ الرابط أو البايلود */
+    background: linear-gradient(135deg, #00ff96, #00ccff); /* خلفية متدرجة خضراء-زرقاء */
+    color: #000; /* لون النص أسود */
+    border: none; /* بدون حدود خارجية */
+    padding: 10px 20px; /* حواف داخلية للزر */
+    border-radius: 6px; /* حواف مستديرة */
+    cursor: pointer; /* تغيير شكل المؤشر عند المرور عليه */
+    font-weight: 600; /* سمك النص متوسط قوي */
+    margin-top: 10px; /* مسافة من الأعلى */
+    transition: all 0.3s ease; /* انتقال ناعم للحركات */
+}
+
+.copy-btn:hover { /* تأثير الهوفر على زر النسخ */
+    transform: scale(1.05); /* تكبير بسيط عند المرور */
+    box-shadow: 0 0 15px rgba(0, 255, 150, 0.5); /* توهج حول الزر */
+}
+
+.hidden { display: none !important; } /* كلاس لإخفاء أي عنصر تمامًا */
+
+@media (max-width: 768px) { /* تنسيقات خاصة للشاشات الصغيرة (الجوال/تابلت) */
+    .header h1 { font-size: 2em; } /* تصغير حجم عنوان الهيدر */
+    .summary-card { grid-template-columns: 1fr; } /* جعل ملخص النتائج في عمود واحد */
+    .button-group { flex-direction: column; } /* ترتيب الأزرار عموديًا بدل أفقيًا */
+    .input-section { padding: 25px; } /* تقليل الحواف الداخلية للصندوق */
+}

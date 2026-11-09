@@ -1,0 +1,119 @@
+<!DOCTYPE html> <!-- تعريف نوع مستند HTML5 -->
+<html lang="ar" dir="rtl"> <!-- تحديد لغة الصفحة بالعربية واتجاه النص من اليمين لليسار -->
+<head> <!-- بداية رأس الصفحة -->
+    <meta charset="UTF-8"> <!-- تحديد ترميز الأحرف ليشغل العربية بشكل صحيح -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- جعل الصفحة متجاوبة مع الشاشات الصغيرة -->
+    <title>4L1-Check</title> <!-- عنوان الموقع الظاهر في تبويب المتصفح -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> <!-- ربط صفحة التنسيقات CSS باستخدام Flask -->
+</head>
+<body> <!-- بداية جسم صفحة الموقع -->
+
+    <div class="animated-background"> <!-- الخلفية المتحركة الرئيسية للموقع -->
+        <div class="cyber-grid"></div> <!-- شبكة سيبرانية فوق الخلفية -->
+        <div class="particle particle-1"></div> <!-- تأثير ضوئي متحرك رقم 1 -->
+        <div class="particle particle-2"></div> <!-- تأثير ضوئي متحرك رقم 2 -->
+        <div class="particle particle-3"></div> <!-- تأثير ضوئي متحرك رقم 3 -->
+        <div class="particle particle-4"></div> <!-- تأثير ضوئي متحرك رقم 4 -->
+    </div>
+
+    <div class="container"> <!-- الحاوية الأساسية لمحتويات الصفحة -->
+
+        <header class="header"> <!-- رأس الموقع الذي يحتوي على الشعار والعنوان -->
+            <div class="logo-section"> <!-- قسم ترتيب الشعار والنص معًا -->
+                <div class="shield-icon">🛡️</div> <!-- أيقونة درع كرمز لأمان الموقع -->
+                <h1>4L1-Check</h1> <!-- عنوان الموقع الظاهر في الأعلى -->
+            </div>
+        </header>
+
+        <main class="main-content"> <!-- المحتوى الرئيسي للصفحة -->
+
+            <section class="input-section"> <!-- قسم إدخال بيانات الفحص -->
+                <h2>بيانات الفحص</h2> <!-- عنوان القسم الذي يوضح أن المستخدم سيدخل بيانات للفحص -->
+                
+                <div class="form-group"> <!-- مجموعة الحقل الأول (الرابط) -->
+                    <label for="website-url">رابط الموقع</label> <!-- نص يوضح أن الحقل خاص بإدخال رابط الموقع -->
+                    <!-- نوع الإدخال نص -->
+                    <!-- معرف العنصر للتحكم به عبر JS -->
+                    <!-- نص افتراضي يظهر داخل الحقل -->
+                    <!-- إضافة تنسيق CSS خاص لحقل الإدخال -->
+                    <!-- عرض آخر رابط أدخله المستخدم عبر الـ session -->
+                    <input 
+                        type="text"
+                        id="website-url"  
+                        placeholder="https://example.com"
+                        class="input-field"
+                        value="{{ site or '' }}"
+                    >
+                </div>
+
+                <div class="form-group"> <!-- مجموعة الحقل الثاني (نوع الثغرة) -->
+                    <label for="vuln-type">نوع الثغرة؟</label> <!-- نص يوضح أن هذا القسم لاختيار نوع الثغرة -->
+                    <select id="vuln-type" class="select-field"> <!-- قائمة منسدلة لأنواع الثغرات -->
+                        <option value="xss" {% if site %} selected {% endif %}>Reflected XSS</option> <!-- خيار فحص XSS الانعكاسية -->
+                        <option value="stored_xss">Stored XSS</option> <!-- خيار فحص XSS التخزينية -->
+                        <option value="csrf">CSRF</option> <!-- خيار فحص CSRF -->
+                        <option value="sqli">SQL Injection</option> <!-- خيار فحص SQL Injection -->
+                    </select>
+                </div>
+
+                <div class="button-group"> <!-- مجموعة الأزرار الخاصة بالعمليات -->
+                    <button id="scan-btn" class="btn btn-primary">ابدأ الفحص</button> <!-- زر بدء عملية فحص الموقع -->
+                    <button id="clear-btn" class="btn btn-secondary">مسح</button> <!-- زر لمسح البيانات وإعادة الصفحة لوضعها الطبيعي -->
+                </div>
+            </section>
+
+            <section id="progress-section" class="progress-section hidden"> <!-- قسم حالة "جاري الفحص" ويظهر أثناء الفحص فقط -->
+                <div class="scanner-animation"> <!-- مكون الرسوم المتحركة لخط الفحص -->
+                    <div class="scanner-line"></div> <!-- الخط المتحرك الذي يوحي بأن النظام يفحص الموقع -->
+                </div>
+                <p id="progress-text">جاري الفحص...</p> <!-- نص يخبر المستخدم بأن الفحص جاري -->
+            </section>
+
+            <section id="results-section" class="results-section {% if not results %}hidden{% endif %}"> <!-- قسم عرض النتائج بعد اكتمال الفحص -->
+                <div class="summary-card"> <!-- بطاقة تلخص عدد الصفحات والثغرات -->
+                <!-- <div class="summary-item"> 
+                        <span class="label">الصفحات المفحوصة:</span> 
+                        <span id="pages-tested" class="value">{{ results|length if results else 0 }}</span>
+                    </div> -->
+                <!-- <div class="summary-item">
+                        <span class="label">الثغرات المكتشفة:</span> 
+                        <span id="total-found" class="value">{{ results|length if results else 0 }}</span>d
+                    </div> -->
+                </div>
+
+                <div id="vulnerabilities-container" class="vulnerabilities-container"> <!-- الحاوية التي تحتوي على بطاقات الثغرات -->
+                    {% if results %} <!-- شرط: إذا كانت هناك نتائج -->
+                        {% for vuln in results %} <!-- تكرار على كل ثغرة موجودة في النتائج -->
+                            <div class="vulnerability-card {{ vuln.severity|lower }}"> <!-- بطاقة ثغرة مع تلوين يعتمد على مستوى الخطورة -->
+                                <div class="vuln-header"> <!-- رأس البطاقة -->
+                                    <div class="vuln-type">{{ vuln.type }}</div> <!-- عرض نوع الثغرة (XSS/SQLi...) -->
+                                    <div class="severity-badge">{{ vuln.severity }}</div> <!-- شارة تبين مستوى الخطورة -->
+                                </div>
+
+                                <div class="vuln-content"> <!-- قسم عرض رابط الصفحة المصابة -->
+                                    <span class="vuln-label">🔗 الرابط:</span> <!-- لابل يوضح أن القيمة التالية هي رابط -->
+                                    <div class="vuln-url">{{ vuln.url }}</div> <!-- الرابط المصاب بالثغرة -->
+                                </div>
+
+                                <div class="vuln-content"> <!-- قسم عرض البايلود المستخدم -->
+                                    <span class="vuln-label">💣 Payload:</span> <!-- لابل يوضح أن القيمة التالية هي الـ Payload -->
+                                    <div class="vuln-payload">{{ vuln.payload }}</div> <!-- البايلود المستخدم في اكتشاف الثغرة -->
+                                </div>
+
+                                <div class="vuln-description"> <!-- قسم وصف الثغرة -->
+                                    <strong>📌 الوصف:</strong><br> <!-- عنوان "الوصف" -->
+                                    {{ vuln.description }} <!-- نص يشرح كيفية حدوث الثغرة وتأثيرها -->
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %} <!-- حالة عدم وجود أي نتائج -->
+                        <p style="text-align: center; color: #00ff96; padding: 40px;">لم يتم العثور على ثغرات ✓</p> <!-- رسالة تفيد بعدم وجود ثغرات -->
+                    {% endif %}
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script> <!-- ربط ملف الجافاسكربت للتحكم في وظائف الفحص -->
+</body>
+</html> <!-- نهاية صفحة HTML -->
